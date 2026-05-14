@@ -28,68 +28,64 @@
             border-bottom: 5px solid var(--secondary-color);
         }
 
+        header h1 { margin: 0; font-size: 2.8rem; font-weight: 900; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+        header p { font-size: 1.3rem; font-weight: 600; color: var(--secondary-color); margin-top: 15px; }
+
         .container {
             max-width: 1000px; margin: -50px auto 50px;
             background: var(--card-bg); padding: 45px; border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        /* --- نظام أيقونة التشغيل الذكي --- */
-        .audio-control-wrapper {
-            position: fixed; bottom: 30px; left: 30px; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        .activation-btn {
-            background: var(--secondary-color); border: none;
-            width: 70px; height: 70px; border-radius: 50%;
-            font-size: 30px; cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease; animation: bounce 2s infinite;
-        }
-
-        .activation-text {
-            background: var(--primary-color); color: white;
-            padding: 5px 12px; border-radius: 8px; font-size: 14px;
-            margin-bottom: 10px; font-weight: bold; white-space: nowrap;
-        }
-
-        #main-audio-btn {
-            display: none; /* مخفي حتى يتم التفاعل */
-            background: var(--primary-color); color: var(--secondary-color);
-            border: 3px solid var(--secondary-color); width: 70px; height: 70px;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
-        }
-
-        /* --- باقي تنسيقات المحتوى --- */
-        .sync-active { background-color: rgba(197, 160, 89, 0.15) !important; border-radius: 12px; }
-        .example { display: inline-block; background: #f8fcf9; color: var(--primary-color); padding: 6px 18px; border-radius: 10px; font-weight: 900; font-size: 1.8rem; border-bottom: 4px solid var(--secondary-color); margin: 8px; }
-        details { margin-bottom: 20px; border: 1px solid #e8ede9; border-radius: 15px; overflow: hidden; background: #fff; }
-        summary { font-weight: 800; background-color: var(--primary-color); color: #fff; padding: 20px; cursor: pointer; list-style: none; }
-        .note { border-right: 8px solid var(--secondary-color); background: #fefefa; padding: 30px; margin: 45px 0; border-radius: 15px; }
+        .intro { background-color: #f1f8f5; padding: 25px; border-radius: 15px; border-right: 6px solid var(--secondary-color); margin-bottom: 3rem; font-weight: 500; }
         
+        h2, h3 { color: var(--primary-color); font-weight: 800; border-right: 6px solid var(--secondary-color); padding-right: 15px; margin-top: 40px; }
+        
+        .example { display: inline-block; background: #f8fcf9; color: var(--primary-color); padding: 6px 18px; border-radius: 10px; font-weight: 900; font-family: 'Traditional Arabic', serif; font-size: 1.8rem; border-bottom: 4px solid var(--secondary-color); margin: 8px; }
+        
+        details { margin-bottom: 20px; border: 1px solid #e8ede9; border-radius: 15px; overflow: hidden; background: #fff; }
+        summary { font-weight: 800; font-size: 1.3rem; background-color: var(--primary-color); color: #fff; cursor: pointer; padding: 20px 25px; list-style: none; }
+        
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 25px 0; border-radius: 15px; overflow: hidden; }
+        th { background-color: var(--primary-color); color: var(--secondary-color); padding: 20px; }
+        td { padding: 18px; border-bottom: 1px solid #f1f1f1; text-align: center; }
+
+        .note { border-right: 8px solid var(--secondary-color); background: #fefefa; padding: 30px; margin: 45px 0; border-radius: 15px; }
+
+        /* --- الأزرار العائمة المحسنة --- */
+        .audio-wrapper {
+            position: fixed; bottom: 30px; left: 30px; z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+
+        .btn-style {
+            width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--secondary-color);
+            cursor: pointer; font-size: 30px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.3s;
+        }
+
+        #initBtn { background: var(--secondary-color); color: white; animation: pulse 1.5s infinite; }
+        #playBtn { background: var(--primary-color); color: var(--secondary-color); display: none; }
+        
+        .status-text { background: var(--primary-color); color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px; font-weight: bold; }
+
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+        .sync-active { background-color: rgba(197, 160, 89, 0.15) !important; border-radius: 12px; }
         audio { display: none; }
     </style>
 </head>
 <body>
 
-<!-- عنصر الصوت -->
 <audio id="lessonAudio">
     <source src="lesson-audio.mp3" type="audio/mpeg">
 </audio>
 
-<!-- زر التفعيل والتشغيل -->
-<div class="audio-control-wrapper">
-    <div id="activation-section">
-        <div class="activation-text">اضغط هنا لتشغيل الصوت 👇</div>
-        <button class="activation-btn" onclick="initAudio()">☝️</button>
+<div class="audio-wrapper">
+    <div id="initBox">
+        <div class="status-text">المس هنا أولاً ☝️</div>
+        <button id="initBtn" class="btn-style" onclick="enableAudio()">☝️</button>
     </div>
-    <button id="main-audio-btn" class="activation-btn" onclick="toggleAudio()">▶️</button>
+    <button id="playBtn" class="btn-style" onclick="toggleAudio()">▶️</button>
 </div>
 
 <header>
@@ -98,28 +94,29 @@
 </header>
 
 <div class="container">
-    <div id="sec1" class="intro">
-        <b>بسم الله الرحمن الرحيم</b> <br>
+    <div id="part1" class="intro">
+        <b>بسم الله الرحمن الرحيم، الحمد لله والصلاة والسلام على رسول الله</b> <br>
         ⬅️ نرحب بكم في درس جديد من دروس التجويد وهو <b>الروم</b>.
     </div>
 
-    <div id="sec2">
+    <div id="part2">
         <h2>🔍 أولاً: تعريف الروم</h2>
-        <p>هو النطق ببعض الحركة (ثلثها) بصوت خفي يسمعه القريب دون البعيد.</p>
-        <span class="example">نستعينُ</span>
+        <div style="padding: 20px; background: #fffcf5; border-radius: 10px; border-right: 4px solid var(--secondary-color);">
+            <strong>لغةً:</strong> الطلب. <br>
+            <strong>اصطلاحاً:</strong> هو النطق ببعض الحركة بصوت خفي.
+        </div>
+        <p>أمثلة: <span class="example">نستعينُ</span> ، <span class="example">الرحيمِ</span></p>
     </div>
 
-    <div id="sec3">
-        <h2>📖 تفاصيل تطبيقية</h2>
+    <div id="part3">
+        <h2>📖 تفاصيل وأمثلة تطبيقية</h2>
         <details id="d1">
             <summary>الروم والمد العارض للسكون</summary>
-            <div style="padding: 20px;">قاعدة ذهبية: <strong>"الروم كالوصل"</strong>. يوقف عليه بالقصر فقط.</div>
+            <div style="padding: 20px;">
+                <p>قاعدة: <strong>"الروم كالوصل"</strong>.</p>
+                <p>يوقف عليه بـ <strong>القصر (حركتين)</strong> فقط.</p>
+            </div>
         </details>
-    </div>
-
-    <div class="note">
-        <strong>💡 مسألة هاء الكناية:</strong>
-        المختار عند ابن الجزري هو "التفصيل".
     </div>
 </div>
 
@@ -129,43 +126,37 @@
 
 <script>
     const audio = document.getElementById('lessonAudio');
-    const actSection = document.getElementById('activation-section');
-    const mainBtn = document.getElementById('main-audio-btn');
+    const initBox = document.getElementById('initBox');
+    const playBtn = document.getElementById('playBtn');
 
-    // دالة التفعيل (أول لمسة)
-    function initAudio() {
-        // تشغيل صامت سريع جداً لفك حظر المتصفح
+    // الخطوة 1: فك قفل الصوت بالمتصفح
+    function enableAudio() {
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
-            
-            // تبديل الأزرار
-            actSection.style.display = 'none';
-            mainBtn.style.display = 'flex';
-            
-            // إعلام المستخدم بالخطوة التالية
-            alert("تم تفعيل النظام الصوتي. اضغط الآن على زر التشغيل (▶️) للاستماع.");
-        }).catch(e => console.error("فشل التفعيل:", e));
+            initBox.style.display = 'none'; // إخفاء زر التفعيل
+            playBtn.style.display = 'flex'; // إظهار زر التشغيل
+        }).catch(err => console.log("بانتظار اللمس..."));
     }
 
-    // دالة التشغيل/الإيقاف الأساسية
+    // الخطوة 2: تشغيل وإيقاف الصوت
     function toggleAudio() {
         if (audio.paused) {
             audio.play();
-            mainBtn.innerText = "⏸️";
+            playBtn.innerText = "⏸️";
         } else {
             audio.pause();
-            mainBtn.innerText = "▶️";
+            playBtn.innerText = "▶️";
         }
     }
 
-    // مزامنة النص مع الصوت
+    // مزامنة تلوين النص
     audio.ontimeupdate = function() {
         let t = audio.currentTime;
         const timeline = [
-            { id: 'sec1', start: 0, end: 15 },
-            { id: 'sec2', start: 16, end: 40 },
-            { id: 'sec3', start: 41, end: 80 }
+            { id: 'part1', start: 0, end: 10 },
+            { id: 'part2', start: 11, end: 30 },
+            { id: 'part3', start: 31, end: 60 }
         ];
 
         timeline.forEach(item => {
@@ -173,7 +164,7 @@
             if (el) {
                 if (t >= item.start && t <= item.end) {
                     el.classList.add('sync-active');
-                    if(item.id === 'sec3') document.getElementById('d1').open = true;
+                    if(item.id === 'part3') document.getElementById('d1').open = true;
                 } else {
                     el.classList.remove('sync-active');
                 }
