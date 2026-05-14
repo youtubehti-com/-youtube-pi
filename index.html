@@ -3,117 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الدرس الثاني: الوقف بالروم | منصة التجويد التعليمية</title>
+    <title>الدرس الثاني: الوقف بالروم</title>
     <style>
         :root {
             --primary-color: #1b4d3e;
             --secondary-color: #c5a059;
             --bg-color: #f7f9f7;
-            --card-bg: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
-            margin: 0; padding: 0; line-height: 1.8;
+            margin: 0; padding: 0;
         }
 
+        /* --- شاشة التفاعل الأولى --- */
+        #interaction-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(27, 77, 62, 0.95);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 20000; color: white; cursor: pointer;
+            text-align: center; transition: opacity 0.5s ease;
+        }
+
+        .tap-icon {
+            font-size: 60px; margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- باقي تنسيقات الصفحة --- */
         header {
             background: linear-gradient(135deg, #1b4d3e 0%, #2e7d32 100%);
             color: #f1f1f1; padding: 4rem 1rem; text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
             border-bottom: 5px solid var(--secondary-color);
         }
 
         .container {
-            max-width: 1000px; margin: -50px auto 50px;
-            background: var(--card-bg); padding: 45px; border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); position: relative;
+            max-width: 900px; margin: -50px auto 50px;
+            background: #fff; padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .sync-active { 
-            background-color: rgba(197, 160, 89, 0.15) !important; 
-            border-radius: 12px; transition: all 0.4s ease;
-        }
-
-        /* زر التشغيل العائم */
         .play-trigger {
-            position: fixed; bottom: 30px; left: 30px; z-index: 10000;
-            width: 70px; height: 70px; background: var(--primary-color);
-            color: var(--secondary-color); border: 3px solid var(--secondary-color);
-            border-radius: 50%; cursor: pointer; font-size: 28px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            display: flex; align-items: center; justify-content: center;
+            position: fixed; bottom: 30px; left: 30px; width: 65px; height: 65px;
+            background: var(--primary-color); color: var(--secondary-color);
+            border: 3px solid var(--secondary-color); border-radius: 50%;
+            cursor: pointer; font-size: 24px; display: none; /* مخفي في البداية */
+            align-items: center; justify-content: center; z-index: 10000;
         }
-        
-        audio { display: none; }
 
-        .example { display: inline-block; background: #f8fcf9; color: var(--primary-color); padding: 6px 18px; border-radius: 10px; font-weight: 900; font-size: 1.8rem; border-bottom: 4px solid var(--secondary-color); margin: 8px; }
-        details { margin-bottom: 20px; border: 1px solid #e8ede9; border-radius: 15px; overflow: hidden; }
-        summary { font-weight: 800; background-color: var(--primary-color); color: #fff; padding: 20px; cursor: pointer; list-style: none; }
+        .sync-active { background-color: rgba(197, 160, 89, 0.2); border-radius: 10px; }
     </style>
 </head>
-<body onclick="unlockAudio()"> <!-- أضفنا دالة فك القفل هنا -->
+<body>
 
+<!-- الشاشة الافتتاحية للتفاعل -->
+<div id="interaction-overlay" onclick="startExperience()">
+    <div class="tap-icon">👈</div>
+    <h2>اضغط هنا لتفعيل المحتوى الصوتي</h2>
+    <p>بمجرد الضغط، ستتمكن من الاستماع للدرس وتتبع النص</p>
+</div>
+
+<!-- زر التشغيل الأساسي -->
 <button class="play-trigger" onclick="toggleAudio()" id="playBtn">▶️</button>
 
-<audio id="lessonAudio" preload="auto">
+<audio id="lessonAudio">
     <source src="lesson-audio.mp3" type="audio/mpeg">
 </audio>
 
 <header>
     <h1>الدرس الثاني: الوقف بالروم</h1>
-    <p>سلسلة باب الوقف على أواخر الكلم</p>
+    <p>منصة التجويد التعليمية</p>
 </header>
 
 <div class="container">
-    <div id="part-1" style="padding:15px">
-        <b>بسم الله الرحمن الرحيم</b> <br>
-        ⬅️ نرحب بكم في درس جديد من دروس التجويد وهو <b>الروم</b>.
+    <div id="p1" style="padding: 10px;">
+        <h3>مقدمة الدرس</h3>
+        <p>بسم الله الرحمن الرحيم، نرحب بكم في درس الروم...</p>
     </div>
-
-    <div id="part-2">
-        <h2>🔍 أولاً: تعريف الروم</h2>
-        <p>هو النطق ببعض الحركة (ثلثها) بصوت خفي يسمعه القريب دون البعيد.</p>
-        <span class="example">نستعينُ</span>
+    
+    <div id="p2" style="padding: 10px;">
+        <h3>تعريف الروم</h3>
+        <p>هو النطق ببعض الحركة بصوت خفي...</p>
     </div>
-    <!-- باقي المحتوى الخاص بكِ يوضع هنا بنفس الطريقة -->
 </div>
 
 <script>
     const audio = document.getElementById('lessonAudio');
-    const btn = document.getElementById('playBtn');
-    let isUnlocked = false;
+    const overlay = document.getElementById('interaction-overlay');
+    const playBtn = document.getElementById('playBtn');
 
-    // دالة "فك القفل" بمجرد أن يلمس المستخدم الشاشة في أي مكان
-    function unlockAudio() {
-        if (!isUnlocked) {
-            audio.play().then(() => {
-                audio.pause(); // نشغله ونوقفه فوراً ليعرف المتصفح أنه مسموح
-                isUnlocked = true;
-                console.log("Audio Unlocked");
-            }).catch(e => console.log("Waiting for interaction..."));
-        }
+    // الدالة التي تعمل عند أول ضغطة على الشاشة
+    function startExperience() {
+        // 1. إخفاء الشاشة الافتتاحية
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 500);
+
+        // 2. إظهار زر التشغيل الأساسي
+        playBtn.style.display = 'flex';
+
+        // 3. "تنبيه" المتصفح بطلب تشغيل صامت سريع جداً (لإعطاء الإذن)
+        audio.play().then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+        }).catch(e => console.log("بانتظار الإذن..."));
     }
 
     function toggleAudio() {
-        // إذا لم يتم فك القفل بعد، نحاول فكه عند ضغط الزر
-        if (!isUnlocked) unlockAudio();
-
         if (audio.paused) {
             audio.play();
-            btn.innerText = "⏸️";
+            playBtn.innerText = "⏸️";
         } else {
             audio.pause();
-            btn.innerText = "▶️";
+            playBtn.innerText = "▶️";
         }
     }
 
     audio.ontimeupdate = function() {
         let t = audio.currentTime;
         const timeline = [
-            { id: 'part-1', start: 0, end: 10 },
-            { id: 'part-2', start: 11, end: 30 }
+            { id: 'p1', start: 0, end: 10 },
+            { id: 'p2', start: 11, end: 30 }
         ];
 
         timeline.forEach(item => {
